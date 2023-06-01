@@ -12,15 +12,17 @@ export default defineConfig({
             input: [
                 "resources/scss/app.scss",
                 "resources/js/app.js",
-                //"resources/js/auth.js",
-                //"resources/js/dashboard.js",
+                "resources/js/pages/auth.js",
+                "resources/js/pages/entidad.js",
+                "resources/js/pages/ficha.js",
+                "resources/js/pages/fichas.js",
             ],
             refresh: true,
         }),
     ],
     resolve: {
         alias: {
-            //"@modules": "/resources/js/app/modules",
+            "@pages": "/resources/js/pages",
             //"@libs": "/resources/js/app/libs",
             "@nodeJS": "/node_modules"
         },

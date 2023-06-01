@@ -13,9 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('user');
-            $table->string('password');
+            $table->uuid('key');
+            $table->integer('tipo_documento_id')->nullable();
+            $table->string('nombre', 100)->nullable();
+            $table->string('apellido', 150)->nullable();
+            $table->string('numero_documento', 50)->nullable();
+            $table->string('user')->nullable();
+            $table->string('adjunto')->nullable();
+            $table->string('adjunto_nombre')->nullable();
+            $table->string('password_vista')->nullable();
+            $table->string('password')->nullable();
+            $table->char('user_type',1)->nullable()->comment('1-admin,2-portero o conserje, 3- entidad, 4- inquilino');
+            $table->boolean('estado')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

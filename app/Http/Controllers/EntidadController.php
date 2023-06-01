@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entidad;
+use App\Models\User;
+use App\Models\UsuarioEntidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EntidadController extends Controller
 {
@@ -14,7 +18,19 @@ class EntidadController extends Controller
     {
         return response()->json([
             'ok' => true,
-            'response' => Entidad::all()
+            'url' => env('APP_URL'),
+            'response' => DB::select("
+                SELECT
+                entidad.nombre,
+                users.`user` 'usuario',
+                users.password_vista 'password',
+                entidad.`key` 'key',
+                CONCAT(?,'/frm/',entidad.`key`) 'link'
+                FROM usuario_entidad
+                JOIN entidad ON usuario_entidad.entidad_id = entidad.id AND entidad.estado = TRUE
+                JOIN users ON usuario_entidad.user_id = users.id AND users.estado = TRUE
+                WHERE entidad.estado = TRUE
+            ", [env('APP_URL')])
         ]);
     }
 
@@ -23,7 +39,6 @@ class EntidadController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -31,8 +46,42 @@ class EntidadController extends Controller
      */
     public function store(Request $request)
     {
-         $entidad = new Entidad();
-         $entidad->nombre = $request->nombre;
+        $request->validate([
+            'nombre' => 'required',
+            'user' => 'required',
+            'password' => 'required'
+        ]);
+
+        $entidad = new Entidad();
+        $entidad->nombre = $request->nombre;
+        $entidad->save();
+
+        $user = new User();
+        $user->nombre = $request->nombre;
+        $user->user = $request->user;
+        $user->password_vista = $request->password;
+        $user->password = Hash::make($request->password);
+        $user->user_type = '2';
+        $user->save();
+
+        $entidadFind = Entidad::find($entidad->key);
+        $userFind = User::find($user->key);
+
+        $usuarioEntidad = new UsuarioEntidad();
+        $usuarioEntidad->user_id = $userFind->id;
+        $usuarioEntidad->entidad_id = $entidadFind->id;
+        $usuarioEntidad->save();
+
+        return response()->json([
+            'ok' => true,
+            'response' => [
+                'key' => $entidad->key,
+                'nombre' => $entidadFind->nombre,
+                'usuario' => $userFind->user,
+                'password' => $userFind->password_vista,
+                'link' => env('APP_URL').'/frm/'.$entidad->key
+            ]
+        ]);
     }
 
     /**
@@ -40,8 +89,6 @@ class EntidadController extends Controller
      */
     public function show($key)
     {
-
-
     }
 
     /**
@@ -63,8 +110,14 @@ class EntidadController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Entidad $entidad)
+    public function destroy($keyEntidad)
     {
-        //
+        $entidad = Entidad::find($keyEntidad);
+        $entidad->estado = false;
+        $entidad->save();
+        return response()->json([
+            'ok' => true,
+            'response' => $keyEntidad
+        ]);
     }
 }

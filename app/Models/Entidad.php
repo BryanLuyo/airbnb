@@ -19,4 +19,9 @@ class Entidad extends Model
         'nombre',
     ];
 
+    protected $hidden = [
+       'created_at',
+       'updated_at'
+    ];
+
 }
