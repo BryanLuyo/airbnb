@@ -3,16 +3,21 @@ import es from './../es';
 import NoResult from "../ag-grid-render/noResult";
 import Loading from "../ag-grid-render/loading";
 import { alertMessage, form_data, nxmodal, nxtoast } from "../function";
-import ButtonDestroy from "../ag-grid-render/buttonDestroy";
+import ButtonsEntidad from "../ag-grid-render/buttonsEntidad";
 
 export default (async () => {
+
+
+    let agregar = false, keyEntidad;
 
     const modalAddEntidad = nxmodal(
         document.getElementById("modalAddEntidad")
     );
 
-
     document.getElementById('add_entidad').addEventListener('click', () => {
+        agregar = true;
+        document.getElementById('title-entidad').innerText = 'Agregar entidad'
+        document.getElementById('txt-entidad-nombre').value = '';
         modalAddEntidad.show();
     })
 
@@ -22,7 +27,11 @@ export default (async () => {
             document.querySelector("#formEntidad")
         );
         if (formGuardarConcepto.checkValidity()) {
-            var { data } = await axios.post(`${apiURL}/entidades`, formConcepto)
+            if (agregar) {
+                var { data } = await axios.post(`${apiURL}/entidades`, formConcepto)
+            } else {
+                var { data } = await axios.put(`${apiURL}/entidades/${keyEntidad}`,formConcepto);
+            }
             if (data.ok) {
                 modalAddEntidad.hide();
                 formGuardarConcepto.reset();
@@ -76,11 +85,17 @@ export default (async () => {
         });
     };
 
+    const editRow = async (resp) => {
+        agregar = false;
+        keyEntidad = resp.key;
+        document.getElementById('title-entidad').innerText = 'Editar entidad'
+        document.getElementById('txt-entidad-nombre').value = resp.nombre
+        modalAddEntidad.show();
+    }
+
 
     const columnDefs = [
         { field: "nombre", headerName: "Nombre", width: 350 },
-        { field: "usuario", headerName: "Usuario", width: 200 },
-        { field: "password", headerName: "Password", width: 200 },
         {
             field: "link",
             headerName: "Link",
@@ -94,11 +109,19 @@ export default (async () => {
             headerName: "Acciones",
             width: 50,
             pinned: "right",
-            cellRenderer: ButtonDestroy,
+            cellRenderer: ButtonsEntidad,
             cellRendererParams: {
                 clickedDelete: (data) => {
                     deleteRow(data);
                 },
+
+                clickedEdit: (data) => {
+                    editRow(data);
+                },
+
+                clickedUsuario: (data) => {
+                    console.log(data)
+                }
             },
         },
     ];

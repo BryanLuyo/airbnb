@@ -16,7 +16,8 @@
                 </div>
             </div>
         </div>
-        <div class="card-body ag-theme-material" id="myGrid" style="height: calc(100vh - 180px);padding:0">
+        <div class="card-body">
+            <div class="ag-theme-material" id="myGrid" style="height: calc(100vh - 220px);padding:0"></div>
         </div>
     </div>
 
@@ -25,25 +26,18 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="title">Agregar Entidad</h5>
+                    <h5 class="modal-title" id="title-entidad" style="font-size: 15px">Agregar Entidad</h5>
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" id="formEntidad" novalidate>
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="concepto" class="form-label">* Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-
-                                <label for="concepto" class="form-label">Usuario</label>
-                                <input type="text" class="form-control" id="user" name="user" required>
-
-                                <label for="concepto" class="form-label">Contraseña</label>
-                                <input type="text" class="form-control" id="password" name="password" required>
+                                <input type="text" class="form-control" id="txt-entidad-nombre" name="nombre" required>
                             </div>
                         </div>
                     </form>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="btnCancelarGuardarEntidad"
                         data-bs-dismiss="modal">Cancelar</button>
@@ -53,4 +47,5 @@
             </div>
         </div>
     </div>
+
 @endsection
