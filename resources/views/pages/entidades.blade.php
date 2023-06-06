@@ -32,8 +32,18 @@
                     <form class="needs-validation" id="formEntidad" novalidate>
                         <div class="row g-3">
                             <div class="col-12">
-                                <label for="concepto" class="form-label">* Nombre</label>
+                                <label for="txt-entidad-nombre" class="form-label">* Nombre</label>
                                 <input type="text" class="form-control" id="txt-entidad-nombre" name="nombre" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="txt-entidad-usuario" class="form-label">* Usuario</label>
+                                <input type="text" class="form-control" id="txt-entidad-usuario" name="usuario" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="txt-entidad-password" class="form-label">* Password</label>
+                                <input type="text" class="form-control" id="txt-entidad-password" name="password" required>
                             </div>
                         </div>
                     </form>

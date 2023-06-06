@@ -6,7 +6,6 @@ export default class ButtonsEntidad {
             <div class="d-flex justify-content-center">
                 <span class="badge text-bg-primary bg-danger delete-row button-grid" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Eliminar."><i class="bi bi-trash3-fill" style="font-size: 1.4em;"></i></span>
                 <span class="badge text-bg-primary edit-row button-grid" style="background: #001a57 !important" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Editar."><i class="bi bi-pencil-square" style="font-size: 1.4em;"></i></span>
-                <span class="badge text-bg-primary bg-success presupuesto-detalle button-grid" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Usuarios."><i class="bi bi bi-people-fill" style="font-size: 1.4em;"></i></span>
             </div>
         `
         this.btnDelete = this.eGui.querySelector('.delete-row')

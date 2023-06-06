@@ -7,20 +7,18 @@ import ButtonsEntidad from "../ag-grid-render/buttonsEntidad";
 
 export default (async () => {
 
-
     let agregar = false, keyEntidad;
-
     const modalAddEntidad = nxmodal(
         document.getElementById("modalAddEntidad")
     );
-
     document.getElementById('add_entidad').addEventListener('click', () => {
         agregar = true;
         document.getElementById('title-entidad').innerText = 'Agregar entidad'
         document.getElementById('txt-entidad-nombre').value = '';
+        document.getElementById('txt-entidad-usuario').value = '';
+        document.getElementById('txt-entidad-password').value = '';
         modalAddEntidad.show();
     })
-
     document.getElementById('btnGuardarEntidad').addEventListener('click', async () => {
         const formGuardarConcepto = document.getElementById("formEntidad");
         let formConcepto = await form_data(
@@ -30,7 +28,7 @@ export default (async () => {
             if (agregar) {
                 var { data } = await axios.post(`${apiURL}/entidades`, formConcepto)
             } else {
-                var { data } = await axios.put(`${apiURL}/entidades/${keyEntidad}`,formConcepto);
+                var { data } = await axios.put(`${apiURL}/entidades/${keyEntidad}`, formConcepto);
             }
             if (data.ok) {
                 modalAddEntidad.hide();
@@ -39,7 +37,11 @@ export default (async () => {
                     "success",
                     "La entidad se guardo, correctamente."
                 );
-                gridOptions.api.applyTransaction({ add: [data.response] });
+
+                let transaction = agregar
+                    ? { add: [data.response] }
+                    : { update: [data.response] };
+                gridOptions.api.applyTransaction(transaction);
             }
         } else {
             formGuardarConcepto.classList.add("was-validated");
@@ -64,8 +66,6 @@ export default (async () => {
                     id: "btn-toast-aceptar",
                     callback: async () => {
                         var { data } = await axios.delete(`${apiURL}/entidades/${resp.key}`);
-
-                        console.log(data)
                         if (data.ok) {
                             gridOptions.api.applyTransaction({
                                 remove: [{ key: resp.key }],
@@ -90,12 +90,16 @@ export default (async () => {
         keyEntidad = resp.key;
         document.getElementById('title-entidad').innerText = 'Editar entidad'
         document.getElementById('txt-entidad-nombre').value = resp.nombre
+        document.getElementById('txt-entidad-usuario').value = resp.usuario;
+        document.getElementById('txt-entidad-password').value = resp.password;
         modalAddEntidad.show();
     }
 
 
     const columnDefs = [
         { field: "nombre", headerName: "Nombre", width: 350 },
+        { field: "usuario", headerName: "Usuario", width: 200 },
+        { field: "password", headerName: "Password", width: 200 },
         {
             field: "link",
             headerName: "Link",

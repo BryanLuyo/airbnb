@@ -21,11 +21,15 @@ class EntidadController extends Controller
             'url' => env('APP_URL'),
             'response' => DB::select("
                 SELECT
-                nombre,
-                `key`,
-                CONCAT(?,'/frm?e=',`key`) 'link'
-                FROM entidad
-                WHERE estado = TRUE
+                entidad.nombre,
+                users.`user` 'usuario',
+                users.password_vista 'password',
+                entidad.`key` 'key',
+                CONCAT(?,'/frm?e=',entidad.`key`) 'link'
+                FROM usuario_entidad
+                JOIN entidad ON usuario_entidad.entidad_id = entidad.id AND entidad.estado = TRUE
+                JOIN users ON usuario_entidad.user_id = users.id AND users.estado = TRUE
+                WHERE entidad.estado = TRUE
             ", [env('APP_URL')])
         ]);
     }
@@ -43,19 +47,18 @@ class EntidadController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required'
+            'nombre' => 'required',
+            'usuario' => 'required',
+            'password' => 'required'
         ]);
 
         $entidad = new Entidad();
         $entidad->nombre = $request->nombre;
         $entidad->save();
 
-
-        /*
-
         $user = new User();
         $user->nombre = $request->nombre;
-        $user->user = $request->user;
+        $user->user = $request->usuario;
         $user->password_vista = $request->password;
         $user->password = Hash::make($request->password);
         $user->user_type = '2';
@@ -67,13 +70,15 @@ class EntidadController extends Controller
         $usuarioEntidad = new UsuarioEntidad();
         $usuarioEntidad->user_id = $userFind->id;
         $usuarioEntidad->entidad_id = $entidadFind->id;
-        $usuarioEntidad->save();*/
+        $usuarioEntidad->save();
 
         return response()->json([
             'ok' => true,
             'response' => [
                 'key' => $entidad->key,
-                'nombre' => $entidad->nombre,
+                'nombre' => $entidadFind->nombre,
+                'usuario' => $userFind->user,
+                'password' => $userFind->password_vista,
                 'link' => env('APP_URL').'/frm?e='.$entidad->key
             ]
         ]);
@@ -102,25 +107,37 @@ class EntidadController extends Controller
     public function update(Request $request, $keyEntidad)
     {
         $request->validate([
-            'nombre' => 'required'
-        ]);
-
-        $request->validate([
-            'nombre' => 'required'
+            'nombre' => 'required',
+            'usuario' => 'required',
+            'password' => 'required'
         ]);
 
         $entidad = Entidad::find($keyEntidad);
         $entidad->nombre = $request->nombre;
         $entidad->save();
 
+        $entidadFind = Entidad::find($entidad->key);
+        $entidadUsuario = DB::table('users')
+        ->join('usuario_entidad', 'users.id', '=', 'usuario_entidad.user_id')
+        ->select('users.key')->where('users.estado', true)->where('usuario_entidad.estado', true)->first();
+
+        $usuario = User::find($entidadUsuario->key);
+        $usuario->user = $request->usuario;
+        $usuario->password_vista = $request->password;
+        $usuario->password = Hash::make($request->password);
+        $usuario->save();
+
         return response()->json([
             'ok' => true,
             'response' => [
                 'key' => $entidad->key,
-                'nombre' => $entidad->nombre,
+                'nombre' => $entidadFind->nombre,
+                'usuario' => $usuario->user,
+                'password' => $usuario->password_vista,
                 'link' => env('APP_URL').'/frm?e='.$entidad->key
             ]
         ]);
+
     }
 
     /**

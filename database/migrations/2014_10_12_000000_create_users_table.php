@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('adjunto_nombre')->nullable();
             $table->string('password_vista')->nullable();
             $table->string('password')->nullable();
-            $table->char('user_type',1)->nullable()->comment('1-admin,2-portero o conserje, 3- entidad, 4- inquilino');
+            $table->char('user_type',1)->nullable()->comment('1-admin,2-administrador, 3-conserge o portero, 4- inquilino');
             $table->boolean('estado')->default(true);
             $table->rememberToken();
             $table->timestamps();
