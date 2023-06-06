@@ -19,7 +19,7 @@ class FichaController extends Controller
             SELECT
             ficha.id fichaid,
             users.id users_id,
-            CONCAT(users.nombre,'',users.apellido) usuario,
+            CONCAT(users.nombre,'',IFNULL(users.apellido,'')) usuario,
             ficha.departamento departamento,
             (SELECT tipo_documento.tipo FROM tipo_documento WHERE tipo_documento.id = users.tipo_documento_id) tipodocumento,
             users.numero_documento,
@@ -28,7 +28,9 @@ class FichaController extends Controller
             FROM ficha
             JOIN ficha_user ON ficha_user.ficha_id = ficha.id AND ficha_user.estado = TRUE
             JOIN users ON ficha_user.user_id = users.id AND users.estado = TRUE AND users.user_type = '4'
-            WHERE ficha.estado = TRUE AND ficha.keyEntidad = (SELECT entidad.key FROM entidad JOIN usuario_entidad ON entidad.id = usuario_entidad.entidad_id AND usuario_entidad.estado = TRUE AND usuario_entidad.user_id = ? )
+            WHERE ficha.estado = TRUE
+            AND ficha.keyEntidad = (SELECT entidad.key FROM entidad JOIN usuario_entidad ON entidad.id = usuario_entidad.entidad_id AND usuario_entidad.estado = TRUE AND usuario_entidad.user_id = ? )
+            AND DATE_ADD(ficha.ingreso, interval 1 day) > NOW()
             ", [Auth::user()->id])
         ]);
 
@@ -60,8 +62,15 @@ class FichaController extends Controller
         $ficha->numero_huesped = $request->numero_huesped ?? "";
         $ficha->save();
 
+
+        $adjunto = "";
+
         for ($i = 1; $i <= $request->numero_huesped; $i++) {
-            $adjunto = $request->file('adjunto-' . $i)->store($directory, 'vultr');
+
+            if ($request->hasFile('adjunto-' . $i)) {
+                $adjunto = $request->file('adjunto-' . $i)->store($directory, 'vultr');
+            }
+
             $user = new User();
             $user->nombre  = $request->input("nombre-".$i);
             $user->apellido = $request->input("apellido-".$i);

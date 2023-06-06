@@ -29,9 +29,9 @@ export default async (numero) => {
         <input type="text" class="form-control" id="numero_documento-${numero}" name="numero_documento-${numero}" placeholder="Número de Documento" required>
     </div>
     <div class="col-md-6 col-lg-6">
-        <label for="adjunto-${numero}" class="form-label"><span style="color: red">(*)</span>Adjuntar documento</label>
+        <label for="adjunto-${numero}" class="form-label">Adjuntar documento</label>
         <div class="input-group">
-            <input type="file" class="form-control" id="adjunto-${numero}" name="adjunto-${numero}" required>
+            <input type="file" class="form-control" id="adjunto-${numero}" name="adjunto-${numero}">
         </div>
     </div>
    `

@@ -3,6 +3,7 @@
     @vite(['resources/js/pages/fichas.js'])
 @endsection
 @section('content-child')
+
     <div class="card">
         <div class="card-header">
             <div class="row">

@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('layout.auth');
 })->name('login');
 
-Route::get('/frm/{keyEntidad}', function ($keyEntidad){
+Route::get('/frm', function (Request $request){
     return view('pages.ficha', [
-        'key' => $keyEntidad
+        'key' => $request->e
     ]);
 });
 

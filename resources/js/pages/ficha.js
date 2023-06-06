@@ -29,6 +29,7 @@ export default (async () => {
                 formGuardarFicha.reset();
                 document.getElementById('render-huesped').innerHTML = "";
                 document.getElementById('loading-_-').classList.remove('loadingActive');
+                formGuardarFicha.classList.remove('was-validated')
                 await alertMessage(
                     "success",
                     "Los datos se guardaron correctamente."

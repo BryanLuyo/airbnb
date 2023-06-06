@@ -61,11 +61,6 @@ export default async (resp) => {
                 <input type="text" class="form-control" value="${resp.numero_documento}" disabled="disabled">
             </div>
 
-            <div class="col-md-12 col-lg-12 mt-3">
-                <iframe src="http://arbn.test/s?archive=${resp.adjunto}" width="100%" height="700" style="border:none;">
-                </iframe>
-            </div>
-
         </div>
     `
 }

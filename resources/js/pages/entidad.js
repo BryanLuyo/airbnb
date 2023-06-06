@@ -98,8 +98,8 @@ export default (async () => {
 
     const columnDefs = [
         { field: "nombre", headerName: "Nombre", width: 350 },
-        { field: "usuario", headerName: "Usuario", width: 200 },
-        { field: "password", headerName: "Password", width: 200 },
+        { field: "usuario", headerName: "Usuario Administrador", width: 200 },
+        { field: "password", headerName: "Password Administrador", width: 200 },
         {
             field: "link",
             headerName: "Link",
