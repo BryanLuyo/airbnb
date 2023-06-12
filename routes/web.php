@@ -23,6 +23,10 @@ Route::group([
     Route::get('/fichas', function (){
         return view('pages.fichas');
     });
+
+    Route::get('/administrador', function (){
+        return view('pages.administrador');
+    });
 });
 
 Route::get('/s', function (Request $request) {

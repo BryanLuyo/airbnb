@@ -6,7 +6,6 @@ import { alertMessage, form_data, nxmodal, nxtoast } from "../function";
 import ButtonsEntidad from "../ag-grid-render/buttonsEntidad";
 
 export default (async () => {
-
     let agregar = false, keyEntidad;
     const modalAddEntidad = nxmodal(
         document.getElementById("modalAddEntidad")
@@ -19,6 +18,7 @@ export default (async () => {
         document.getElementById('txt-entidad-password').value = '';
         modalAddEntidad.show();
     })
+
     document.getElementById('btnGuardarEntidad').addEventListener('click', async () => {
         const formGuardarConcepto = document.getElementById("formEntidad");
         let formConcepto = await form_data(
@@ -33,6 +33,7 @@ export default (async () => {
             if (data.ok) {
                 modalAddEntidad.hide();
                 formGuardarConcepto.reset();
+                formGuardarConcepto.classList.remove('was-validated')
                 await alertMessage(
                     "success",
                     "La entidad se guardo, correctamente."
@@ -95,7 +96,6 @@ export default (async () => {
         modalAddEntidad.show();
     }
 
-
     const columnDefs = [
         { field: "nombre", headerName: "Nombre", width: 350 },
         { field: "usuario", headerName: "Usuario Administrador", width: 200 },
@@ -151,9 +151,7 @@ export default (async () => {
 
     const gridDiv = document.querySelector("#myGrid");
     new Grid(gridDiv, gridOptions);
-
     gridOptions.api.setRowData([]);
-
     var { data } = await axios.get(`${apiURL}/entidades`);
     gridOptions.api.setRowData(data.response);
 
@@ -169,5 +167,8 @@ export default (async () => {
         })
     });
 
+    document.getElementById('btnCancelarGuardarEntidad').addEventListener('click', async () => {
+        document.getElementById("formEntidad").classList.remove('was-validated')
+    });
 
 })();

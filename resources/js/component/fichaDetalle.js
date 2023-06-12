@@ -1,37 +1,37 @@
-export default async (resp) => {
+export default async (resp, administrador = false) => {
     return `
         <div class="row">
             <div class="col-md-6 col-lg-3">
                 <label for="departamento" class="form-label"><span
                         style="color: red">(*)</span>Departamento</label>
-                <input type="text" class="form-control" value="${resp.departamento}" disabled="disabled">
+                <input type="text" class="form-control" value="${resp.departamento}" ${administrador ?? 'disabled="disabled"'}>
             </div>
             <div class="col-md-6 col-lg-3">
                 <label for="estacionamiento" class="form-label">Cochera(en caso aplique)</label>
-                <input type="text" class="form-control" value="${resp.estacionamiento}" disabled="disabled">
+                <input type="text" class="form-control" value="${resp.estacionamiento}" ${administrador ?? 'disabled="disabled"'}>
             </div>
             <div class="col-md-6 col-lg-3">
                 <label for="numero_placa" class="form-label">Número de Placa</label>
-                <input type="text" class="form-control" value="${resp.numero_placa}" disabled="disabled">
+                <input type="text" class="form-control" value="${resp.numero_placa}" ${administrador ?? 'disabled="disabled"'}>
             </div>
             <div class="col-md-6 col-lg-3">
                 <label for="visitas" class="form-label">Autorización de Visitas </label>
-                <input type="text" class="form-control" disabled="disabled" value="${resp.visita}">
+                <input type="text" class="form-control" ${administrador ?? 'disabled="disabled"'} value="${resp.visita}">
             </div>
 
             <div class="col-md-6 col-lg-3">
                 <label for="ingreso" class="form-label">Fecha y hora de ingreso</label>
-                <input type="text" class="form-control" value="${resp.ingreso}" disabled="disabled">
+                <input type="text" class="form-control" value="${resp.ingreso}" ${administrador ?? 'disabled="disabled"'}>
             </div>
 
             <div class="col-md-6 col-lg-3">
                 <label for="salida" class="form-label">Fecha y hora de salida</label>
-                <input type="text" class="form-control" value="${resp.salida}" disabled="disabled">
+                <input type="text" class="form-control" value="${resp.salida}" ${administrador ?? 'disabled="disabled"'}>
             </div>
 
             <div class="col-md-6 col-lg-3">
                 <label for="infantes" class="form-label">Incluye Infantes ?</label>
-                <input type="text" class="form-control" value="${resp.infantes}" disabled="disabled">
+                <input type="text" class="form-control" value="${resp.infantes}" ${administrador ?? 'disabled="disabled"'}>
             </div>
 
             <div class="col-md-6 col-lg-3">

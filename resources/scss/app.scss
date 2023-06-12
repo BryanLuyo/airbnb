@@ -191,9 +191,19 @@ hr {
 
 .button-grid {
     padding: 8px;
-    margin: 7px 3px;
+    margin: 10px 3px;
 }
 
 .ag-theme-material {
     --ag-material-accent-color : $cSuccess
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #82c500;
+    font-weight: 700;
+}
+
+
+.nav-link {
+    color: #001a57
 }

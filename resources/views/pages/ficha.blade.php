@@ -52,16 +52,16 @@
                         <div class="col-md-6 col-lg-3">
                             <label for="estacionamiento" class="form-label">Cochera(en caso aplique)</label>
                             <input type="text" class="form-control" name="estacionamiento" id="estacionamiento"
-                                placeholder="Estacionamiento o Cochera">
+                                placeholder="Estacionamiento o cochera">
                         </div>
                         <div class="col-md-6 col-lg-3">
                             <label for="numero_placa" class="form-label">Número de Placa</label>
                             <input type="text" name="numero_placa" class="form-control" id="numero_placa"
-                                placeholder="Estacionamiento o Cochera">
+                                placeholder="Estacionamiento o cochera">
                         </div>
                         <div class="col-md-6 col-lg-3">
                             <label for="visitas" class="form-label"><span style="color: red">(*)</span>Autorización de
-                                Visitas</label>
+                                visitas</label>
                             <select id="visitas" name="visitas" class="form-select" required>
                                 <option selected value="">Seleccionar</option>
                                 <option value='1'>Libre</option>
@@ -94,7 +94,7 @@
                         <div class="col-md-6 col-lg-3">
                             <label for="numero_huesped" class="form-label"><span style="color: red">(*)</span>Número de
                                 Huesped</label>
-                            <input type="number" class="form-control" name="numero_huesped" id="numero_huesped" placeholder="Numero de Huesped" required>
+                            <input type="number" class="form-control" name="numero_huesped" id="numero_huesped" placeholder="Número de huesped" required>
                         </div>
 
                         <div class='row' id="render-huesped"></div>

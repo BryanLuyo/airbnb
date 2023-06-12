@@ -142,7 +142,15 @@ class FichaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy($id)
     {
+        $ficha = Ficha::find($id);
+        $ficha->estado = FALSE;
+        $ficha->save();
+
+        return response()->json([
+            'ok' => TRUE,
+            'mesagge' => 'Se elimino el registro con exito'
+        ]);
     }
 }

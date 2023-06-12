@@ -2,19 +2,18 @@ import huesped from "../component/huesped";
 import { alertMessage, form_data } from "../function";
 
 export default (async () => {
+
     document.getElementById('numero_huesped').addEventListener('input', async(e) => {
         if ( parseInt(e.target.value) > 0 ) {
             let html = "";
             for (let index = 1; index <= parseInt(e.target.value); index++) {
                 html+= await huesped(index)
             }
-
             document.getElementById('render-huesped').innerHTML = html;
         }
     });
 
     document.getElementById('btn-guardar-formulario').addEventListener('click', async(e) => {
-
         const formGuardarFicha = document.getElementById("ficha-form");
         let formFicha = await form_data(
             document.querySelector("#ficha-form")
@@ -34,9 +33,7 @@ export default (async () => {
                     "success",
                     "Los datos se guardaron correctamente."
                 );
-
             }
-
         } else {
             formGuardarFicha.classList.add("was-validated");
         }

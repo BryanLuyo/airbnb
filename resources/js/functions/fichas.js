@@ -1,15 +1,13 @@
 import { Grid } from "ag-grid-community";
-import Loading from "../ag-grid-render/loading";
-import NoResult from "../ag-grid-render/noResult";
-import es from "../es";
-import ButtonDetalle from "../ag-grid-render/buttonDetalle";
-import { nxmodal } from "../function";
-import axios from "axios";
+import { alertMessage, nxmodal, nxtoast } from "../function";
+import ButtonDetalle from './../ag-grid-render/buttonDetalle';
+import Loading from './../ag-grid-render/loading';
+import NoResult from './../ag-grid-render/noResult';
+import es from './../es';
+import { RowGroupingModule } from "@ag-grid-enterprise/row-grouping";
 import fichaDetalle from "../component/fichaDetalle";
-import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
 
-export default (async () => {
-
+export default async (userType = '3') => {
     let filterParams = {
         comparator: (filterLocalDateAtMidnight, cellValue) => {
             var dateAsString = cellValue;
@@ -43,6 +41,48 @@ export default (async () => {
         document.getElementById("modalDetalle")
     );
 
+    const deleteRow = async (resp) => {
+        nxtoast({
+            title: "Eliminar Entidad",
+            mensaje: `Desea eliminar el registro ?`,
+            button: [
+                {
+                    title: "cerrar",
+                    class: "btn btn-secondary btn-sm",
+                    function: 'data-bs-dismiss="toast"',
+                    callback: false,
+                },
+                {
+                    title: "Aceptar",
+                    class: "btn btn-primary btn-sm",
+                    style: "background: #001a57;",
+                    id: "btn-toast-aceptar",
+                    callback: async () => {
+                        var { data } = await axios.delete(`${apiURL}/ficha/${resp.fichaid}`);
+
+                        console.log(data)
+                        if (data.ok) {
+
+
+                            console.log(resp.fichaid)
+                            gridOptions.api.applyTransaction({
+                                remove: [{ fichaid: resp.fichaid }],
+                            });
+                            await nxtoast({
+                                hide: true,
+                            });
+                            await alertMessage(
+                                "success",
+                                "Registro eliminado con exito"
+                            );
+                        }
+                    },
+                },
+            ],
+            show: true,
+        });
+    };
+
     const columnDefs = [
         { field: "departamento", headerName: "Departamento", width: 180, rowGroup: true, hide: false },
         { field: "usuario", headerName: "Usuario", width: 300 },
@@ -58,26 +98,30 @@ export default (async () => {
             filter: false,
             cellRenderer: ButtonDetalle,
             cellRendererParams: {
+                userType : userType,
                 clickedDetalle: async (data) => {
                     var { data } = await axios.get(`${apiURL}/ficha/${data.users_id}`);
-                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response[0])
-                    console.log(data)
+                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response[0],true)
                     modalDetalle.show()
                 },
+                clickedDelete : async (data) => {
+                    deleteRow(data)
+                }
             },
         },
     ];
 
     const gridOptions = {
         columnDefs: columnDefs,
-        getRowId: (params) => params.data.users_id,
+        getRowId: (params) => params.data.fichaid,
         defaultColDef: {
             sortable: true,
             filter: true,
             floatingFilter: true,
             resizable: true,
-            minWidth: 160,
-            flex: 1,
+        },
+        autoGroupColumnDef: {
+            width: 150,
         },
         pagination: true,
         loadingOverlayComponent: Loading,
@@ -91,21 +135,11 @@ export default (async () => {
         localeText: es.ag_grid,
     };
 
-    const gridDiv = document.querySelector("#myGrid");
+    const gridDiv = document.querySelector("#grid-fichas");
+    gridDiv.innerHTML = "";
     new Grid(gridDiv, gridOptions, { modules: [RowGroupingModule] });
     gridOptions.api.setRowData([]);
     var { data } = await axios.get(`${apiURL}/ficha`);
     gridOptions.api.setRowData(data.response);
 
-    //logaut
-    document.getElementById('salir-session-login').addEventListener('click', function () {
-        axios.post(`${apiURL}/auth/logout`).then((result) => {
-            if (result.data.ok) {
-                localStorage.removeItem('_user')
-                window.location.href = '/'
-            }
-        }).catch((err) => {
-            console.log(err)
-        })
-    });
-})()
+}

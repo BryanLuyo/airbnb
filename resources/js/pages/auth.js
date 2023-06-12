@@ -19,24 +19,19 @@ export default ( async() => {
 
         axios.get(`/sanctum/csrf-cookie`).then((result) => {
             axios.post(`${apiURL}/login`, form_login).then(async(resp) => {
-
                 if(!resp?.data.ok) {
                     alertMessage('danger', resp.data.message);
                     return true;
                 }
-
                 localStorage.setItem('_user', JSON.stringify({
                     user : resp.data.user
                 }))
 
-
                 if (resp.data.user.user_type === '1') {
                     window.location.href = '/entidades'
                 } else if (resp.data.user.user_type === '2') {
-                    window.location.href = '/fichas'
+                    window.location.href = '/administrador'
                 }
-
-                //
             })
         })
     });
