@@ -35,4 +35,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('unidad_inmobiliaria');
     }
+
+
+
 };

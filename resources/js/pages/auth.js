@@ -1,9 +1,6 @@
 import { alertMessage, form_data } from "../function";
 
 export default ( async() => {
-
-    console.log('login')
-
     let button = document.getElementById('btn-form-login');
 
     button.addEventListener('click', async(e) => {
@@ -23,9 +20,7 @@ export default ( async() => {
                     alertMessage('danger', resp.data.message);
                     return true;
                 }
-                localStorage.setItem('_user', JSON.stringify({
-                    user : resp.data.user
-                }))
+                localStorage.setItem('_user', JSON.stringify(resp.data.user))
 
                 if (resp.data.user.user_type === '1') {
                     window.location.href = '/entidades'

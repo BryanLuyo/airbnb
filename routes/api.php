@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConserjeController;
 use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\FichaController;
+use App\Http\Controllers\UnidadInmobiliariaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +25,8 @@ Route::group([
     'middleware' => ['auth:sanctum']
 ], function () {
     Route::resource('/entidades', EntidadController::class);
+    Route::resource('/unidades', UnidadInmobiliariaController::class);
+    Route::resource('/conserje', ConserjeController::class);
     Route::post('/auth/logout',[AuthController::class, 'logout']);
 });
 

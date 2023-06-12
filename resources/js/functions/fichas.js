@@ -119,6 +119,8 @@ export default async (userType = '3') => {
             filter: true,
             floatingFilter: true,
             resizable: true,
+            minWidth: 170,
+            flex: (userType == '2') ? '1' : '0',
         },
         autoGroupColumnDef: {
             width: 150,
