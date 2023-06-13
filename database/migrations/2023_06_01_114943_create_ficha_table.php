@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('ficha', function (Blueprint $table) {
             $table->id();
-            $table->string('keyEntidad', 200);
+            $table->unsignedBigInteger('entidad_id');
+            $table->foreign('entidad_id')
+            ->references('id')
+            ->on('entidad');
             $table->string('departamento',20);
             $table->string('estacionamiento',20)->nullable();
             $table->string('numero_placa',30)->nullable();

@@ -9,7 +9,7 @@
 
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer" id="foot-modal-detalle">
                 <button type="button" class="btn btn-secondary" id="btnCancelarGuardarEntidad"
                     data-bs-dismiss="modal">Cerrar</button>
             </div>

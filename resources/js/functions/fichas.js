@@ -43,7 +43,7 @@ export default async (userType = '3') => {
 
     const deleteRow = async (resp) => {
         nxtoast({
-            title: "Eliminar Entidad",
+            title: "Eliminar Ficha",
             mensaje: `Desea eliminar el registro ?`,
             button: [
                 {
@@ -59,11 +59,7 @@ export default async (userType = '3') => {
                     id: "btn-toast-aceptar",
                     callback: async () => {
                         var { data } = await axios.delete(`${apiURL}/ficha/${resp.fichaid}`);
-
-                        console.log(data)
                         if (data.ok) {
-
-
                             console.log(resp.fichaid)
                             gridOptions.api.applyTransaction({
                                 remove: [{ fichaid: resp.fichaid }],
@@ -101,7 +97,7 @@ export default async (userType = '3') => {
                 userType : userType,
                 clickedDetalle: async (data) => {
                     var { data } = await axios.get(`${apiURL}/ficha/${data.users_id}`);
-                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response[0],true)
+                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response,true, data.unidades)
                     modalDetalle.show()
                 },
                 clickedDelete : async (data) => {
@@ -140,7 +136,7 @@ export default async (userType = '3') => {
     const gridDiv = document.querySelector("#grid-fichas");
     gridDiv.innerHTML = "";
     new Grid(gridDiv, gridOptions, { modules: [RowGroupingModule] });
-    var { data } = await axios.get(`${apiURL}/ficha`);
+    var { data } = await axios.get(`${apiURL}/ficha?e=${_user.keyEntidad}`);
     gridOptions.api.setRowData(data.response);
     document.querySelector('.ag-watermark').remove()
 
