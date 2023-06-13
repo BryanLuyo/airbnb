@@ -140,8 +140,8 @@ export default async (userType = '3') => {
     const gridDiv = document.querySelector("#grid-fichas");
     gridDiv.innerHTML = "";
     new Grid(gridDiv, gridOptions, { modules: [RowGroupingModule] });
-    gridOptions.api.setRowData([]);
     var { data } = await axios.get(`${apiURL}/ficha`);
     gridOptions.api.setRowData(data.response);
+    document.querySelector('.ag-watermark').remove()
 
 }

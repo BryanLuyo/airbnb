@@ -4,7 +4,7 @@ export default async (resp, administrador = false) => {
             <div class="col-md-6 col-lg-3">
                 <label for="departamento" class="form-label"><span
                         style="color: red">(*)</span>Departamento</label>
-                <input type="text" class="form-control" value="${resp.departamento}" ${administrador ?? 'disabled="disabled"'}>
+                <input type="text" class="form-control" value="${resp.departamento}" disabled="disabled">
             </div>
             <div class="col-md-6 col-lg-3">
                 <label for="estacionamiento" class="form-label">Cochera(en caso aplique)</label>

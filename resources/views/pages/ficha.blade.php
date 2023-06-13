@@ -7,30 +7,26 @@
     <main class="main-content position-relative max-height-vh-100 h-100">
         <div class="opaco" id='loading-_-'>
             <div class="loader loader--style5" title="4">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-                  <rect x="0" y="0" width="4" height="10" fill="#fff">
-                    <animateTransform attributeType="xml"
-                      attributeName="transform" type="translate"
-                      values="0 0; 0 20; 0 0"
-                      begin="0" dur="0.6s" repeatCount="indefinite" />
-                  </rect>
-                  <rect x="10" y="0" width="4" height="10" fill="#fff">
-                    <animateTransform attributeType="xml"
-                      attributeName="transform" type="translate"
-                      values="0 0; 0 20; 0 0"
-                      begin="0.2s" dur="0.6s" repeatCount="indefinite" />
-                  </rect>
-                  <rect x="20" y="0" width="4" height="10" fill="#fff">
-                    <animateTransform attributeType="xml"
-                      attributeName="transform" type="translate"
-                      values="0 0; 0 20; 0 0"
-                      begin="0.4s" dur="0.6s" repeatCount="indefinite" />
-                  </rect>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30"
+                    style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                    <rect x="0" y="0" width="4" height="10" fill="#fff">
+                        <animateTransform attributeType="xml" attributeName="transform" type="translate"
+                            values="0 0; 0 20; 0 0" begin="0" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="10" y="0" width="4" height="10" fill="#fff">
+                        <animateTransform attributeType="xml" attributeName="transform" type="translate"
+                            values="0 0; 0 20; 0 0" begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                    <rect x="20" y="0" width="4" height="10" fill="#fff">
+                        <animateTransform attributeType="xml" attributeName="transform" type="translate"
+                            values="0 0; 0 20; 0 0" begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
                 </svg>
-              </div>
+            </div>
         </div>
-        <nav class="navbar navbar-main navbar-expand-lg px-0" id="navbarBlur" navbar-scroll="true" style="background: #001a57">
+        <nav class="navbar navbar-main navbar-expand-lg px-0" id="navbarBlur" navbar-scroll="true"
+            style="background: #001a57">
             <div class="container-fluid">
                 <nav aria-label="breadcrumb">
                     <img src="{{ Vite::asset('resources/images/logoNexo.png') }}" class="navbar-brand-img h-100"
@@ -43,11 +39,17 @@
                 <div class="card-body">
                     <form class="row g-3" class="needs-validation" id="ficha-form" novalidate>
 
-                        <input type="hidden" name="key" value="{{$key}}">
+                        <input type="hidden" name="key" value="{{ $key }}">
                         <div class="col-md-6 col-lg-3">
                             <label for="departamento" class="form-label"><span
                                     style="color: red">(*)</span>Departamento</label>
-                            <input type="text" class="form-control" name="departamento" id="departamento" placeholder="Departamento" required>
+
+                            <select name="departamento" id="departamento" class="form-select" required>
+                                <option selected value="">Seleccionar</option>
+                                @foreach ($unidades as $unidad)
+                                    <option value='{{$unidad->departamento}}'>{{$unidad->departamento}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-6 col-lg-3">
                             <label for="estacionamiento" class="form-label">Cochera(en caso aplique)</label>
@@ -72,13 +74,15 @@
                         <div class="col-md-6 col-lg-3">
                             <label for="ingreso" class="form-label"><span style="color: red">(*)</span>Fecha y hora de
                                 ingreso</label>
-                            <input type="datetime-local" class="form-control" id="ingreso" name="ingreso" placeholder="Fecha y hora de ingreso" required>
+                            <input type="datetime-local" class="form-control" id="ingreso" name="ingreso"
+                                placeholder="Fecha y hora de ingreso" required>
                         </div>
 
                         <div class="col-md-6 col-lg-3">
                             <label for="salida" class="form-label"><span style="color: red">(*)</span>Fecha y hora de
                                 salida</label>
-                            <input type="datetime-local" class="form-control" name="salida" id="salida" placeholder="Fecha y hora de salida" required>
+                            <input type="datetime-local" class="form-control" name="salida" id="salida"
+                                placeholder="Fecha y hora de salida" required>
                         </div>
 
                         <div class="col-md-6 col-lg-3">
@@ -94,13 +98,15 @@
                         <div class="col-md-6 col-lg-3">
                             <label for="numero_huesped" class="form-label"><span style="color: red">(*)</span>Número de
                                 Huesped</label>
-                            <input type="number" class="form-control" name="numero_huesped" id="numero_huesped" placeholder="Número de huesped" required>
+                            <input type="number" class="form-control" name="numero_huesped" id="numero_huesped"
+                                placeholder="Número de huesped" required>
                         </div>
 
                         <div class='row' id="render-huesped"></div>
 
                         <div class="col-12">
-                            <button type="button" id='btn-guardar-formulario' class="btn btn-primary" style="background: #001a57">Enviar
+                            <button type="button" id='btn-guardar-formulario' class="btn btn-primary"
+                                style="background: #001a57">Enviar
                                 Información</button>
                         </div>
                     </form>

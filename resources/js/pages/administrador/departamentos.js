@@ -110,7 +110,7 @@ export default async (modalAddUnidad) => {
     const gridDiv = document.querySelector("#grid-departamentos");
     gridDiv.innerHTML = "";
     new Grid(gridDiv, gridOptions);
-    gridOptions.api.setRowData([]);
     var { data } = await axios.get(`${apiURL}/unidades?e=${_user.keyEntidad}`);
     gridOptions.api.setRowData(data.response);
+    document.querySelector('.ag-watermark').remove()
 }

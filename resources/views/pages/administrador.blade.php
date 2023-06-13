@@ -37,13 +37,13 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label"> LINK DEL FORMULARIO</label>
-                                        <input type="text" class="form-control" value="Hola que tal" readonly>
+                                        <input type="text" class="form-control" id="link-entidad" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">NOMBRE DE LA ENTIDAD</label>
-                                        <input type="text" class="form-control" readonly>
+                                        <input type="text" class="form-control" id="nombre-entidad" readonly>
                                     </div>
                                 </div>
                             </div>

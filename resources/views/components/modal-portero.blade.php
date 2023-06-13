@@ -26,6 +26,12 @@
                             <label for="txt-portero-password" class="form-label"><span style="color: red">*</span>Password</label>
                             <input type="password" class="form-control" id="txt-portero-password" name="password" required>
                         </div>
+
+                        <div class="col-12">
+                            <label for="txt-portero-celular" class="form-label"><span style="color: red">*</span>Celular</label>
+                            <input type="number" class="form-control" id="txt-portero-celular" name="celular" required>
+                        </div>
+
                     </div>
                 </form>
             </div>

@@ -17,6 +17,7 @@ export default async (modalAddPortero) => {
         { field: "apellido", headerName: "Apellido", width: 200 },
         { field: "user", headerName: "Usuario", width: 350 },
         { field: "password_vista", headerName: "Password", width: 350 },
+        { field: "celular", headerName: "Celular", width: 200 },
         {
             field: "key",
             headerName: "Acciones",
@@ -92,5 +93,6 @@ export default async (modalAddPortero) => {
     new Grid(gridDiv, gridOptions);
     var { data } = await axios.get(`${apiURL}/conserje?e=${_user.keyEntidad}`);
     gridOptions.api.setRowData(data.response);
+    document.querySelector('.ag-watermark').remove()
 
 }

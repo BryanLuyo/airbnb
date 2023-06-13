@@ -103,7 +103,7 @@ class FichaController extends Controller
                 SELECT
                 users.id users_id,
                 users.nombre,
-                users.apellido,
+                IFNULL(users.apellido,'') apellido,
                 ficha.departamento departamento,
                 (SELECT tipo_documento.tipo FROM tipo_documento WHERE tipo_documento.id = users.tipo_documento_id) tipodocumento,
                 users.numero_documento,

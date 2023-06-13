@@ -18,7 +18,7 @@ class ConserjeController extends Controller
         return response()->json([
             'ok' => true,
             'response' => DB::select(
-                "SELECT users.`key`,users.nombre,users.apellido,users.`user`, users.password_vista
+                "SELECT users.`key`,users.nombre,users.apellido,users.`user`, users.password_vista, users.celular
                 FROM users
                 JOIN usuario_entidad ON users.id = usuario_entidad.user_id AND usuario_entidad.estado = TRUE
                 WHERE users.estado = TRUE AND users.user_type = '3' AND usuario_entidad.entidad_id = ?
@@ -38,6 +38,7 @@ class ConserjeController extends Controller
             'nombre' => 'required',
             'user' => 'required',
             'password' => 'required',
+            'celular' => 'required'
         ]);
 
         $user = new User();
@@ -45,6 +46,7 @@ class ConserjeController extends Controller
         $user->apellido = $request->apellido ?? '';
         $user->user = $request->user;
         $user->password_vista = $request->password;
+        $user->celular = $request->celular;
         $user->password = Hash::make($request->password);
         $user->user_type = '3';
         $user->save();
@@ -62,6 +64,7 @@ class ConserjeController extends Controller
               'key' => $user->key,
               'nombre' => $user->nombre,
               'apellido' => $user->apellido,
+              'celular' => $user->celular,
               'user' => $user->user,
               'password_vista' => $user->password_vista
            ]

@@ -17,28 +17,34 @@ export default (async () => {
         document.getElementById("modalGuardarPortero")
     );
 
-
-
-    fichas('2')
+    getInfoEntiidad();
 
     const tabs = document.querySelectorAll('#nav-tab button')
     tabs.forEach(button => {
         button.addEventListener('click', async event => {
             let type = event.target.dataset.type;
-            if (type === 'fichas') {
+            if (type === 'info') {
+                getInfoEntiidad()
+            } else if (type === 'fichas') {
                 fichas('2')
             } else if (type === 'departamentos') {
                 await departamentos(modalAddUnidad)
             } else if (type === 'usuarios') {
                 await portero(modalAddPortero)
             }
-
-
-            document.querySelector('.ag-watermark').remove()
         })
     })
 
     cerrarSession()
+
+    async function getInfoEntiidad() {
+        var { data } = await axios.get(`${apiURL}/entidades/${_user.keyEntidad}`);
+        if ( data.ok) {
+            document.getElementById('link-entidad').value = data.response.link
+            document.getElementById('nombre-entidad').value = data.response.entidad
+        }
+
+    }
 
     document.getElementById('btnGuardarUnidad').addEventListener('click', async (e) => {
         const formGuardarConcepto = document.getElementById("formUnidad");

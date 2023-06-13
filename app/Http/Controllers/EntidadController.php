@@ -90,6 +90,14 @@ class EntidadController extends Controller
     public function show($key)
     {
 
+        $entidad = Entidad::where('id', $key)->first();
+        return response()->json([
+            'ok' => true,
+            'response' => [
+                'link' => env('APP_URL').'/frm?e='.$entidad->key,
+                'entidad' => $entidad->nombre
+            ]
+        ]);
 
     }
 
