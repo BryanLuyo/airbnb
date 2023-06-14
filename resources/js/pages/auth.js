@@ -26,6 +26,8 @@ export default ( async() => {
                     window.location.href = '/entidades'
                 } else if (resp.data.user.user_type === '2') {
                     window.location.href = '/administrador'
+                } else if (resp.data.user.user_type === '3') {
+                    window.location.href = '/portero'
                 }
             })
         })

@@ -17,7 +17,12 @@ export default (async () => {
         document.getElementById("modalGuardarPortero")
     );
 
+    const modalDetalle = nxmodal(
+        document.getElementById("modalDetalle")
+    );
+
     getInfoEntiidad();
+
 
     const tabs = document.querySelectorAll('#nav-tab button')
     tabs.forEach(button => {
@@ -26,7 +31,7 @@ export default (async () => {
             if (type === 'info') {
                 getInfoEntiidad()
             } else if (type === 'fichas') {
-                fichas('2')
+                await fichas('2', modalDetalle)
             } else if (type === 'departamentos') {
                 await departamentos(modalAddUnidad)
             } else if (type === 'usuarios') {
@@ -107,15 +112,29 @@ export default (async () => {
     document.getElementById('foot-modal-detalle')?.addEventListener('click', async(e) => {
 
         if ( e.target.id === 'btnGuardarDetalleFichaAdministrador') {
-
             const formGuardarDetalleFicha = document.getElementById("flicha-detalle").querySelector('#formDetalleFicha');
-
+            let formDetalleFicha = await form_data(
+                document.getElementById("flicha-detalle").querySelector('#formDetalleFicha')
+            );
             if (formGuardarDetalleFicha.checkValidity()) {
+                const fichaID__ = document.getElementById('fichaID__').value;
+                var { data } = await axios.put(`${apiURL}/ficha/administrador/update/fechas/${fichaID__}`, formDetalleFicha)
 
-                console.log('pasa')
+                if(data.ok === true) {
+
+                    document.getElementById('nav-fichas-tab').click();
+                    formGuardarDetalleFicha.classList.remove('was-validated')
+                    modalDetalle.hide();
+
+                    await alertMessage(
+                        "success",
+                        "se guardo correctamente."
+                    );
+
+                }
+
             } else {
                 formGuardarDetalleFicha.classList.add("was-validated");
-                console.log('no pasa')
             }
 
 

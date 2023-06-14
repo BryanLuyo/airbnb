@@ -1,5 +1,4 @@
 export default async (resp, administrador = false, dataDepartamentos = []) => {
-
     /*${ dataDepartamentos.map(departamento => {
             console.log(departamento);
     })}*/
@@ -13,6 +12,7 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
 
     return `
         <form class="needs-validation" id="formDetalleFicha" novalidate="">
+            <input type="hidden" name="fichaID" id="fichaID__" value="${resp.fichaID}">
             <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <label for="departamento" class="form-label"><span style="color: red">(*)</span>Departamento</label>
@@ -33,12 +33,12 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
 
                 <div class="col-md-6 col-lg-3">
                     <label for="ingreso" class="form-label">Fecha y hora de ingreso</label>
-                    <input type="datetime-local" class="form-control" value="${resp.ingreso}" ${administrador ?? 'disabled="disabled"'} required>
+                    <input type="datetime-local" name="ingreso" class="form-control" value="${resp.ingreso}" ${administrador ?? 'disabled="disabled"'} required>
                 </div>
 
                 <div class="col-md-6 col-lg-3">
                     <label for="salida" class="form-label">Fecha y hora de salida</label>
-                    <input type="datetime-local" class="form-control" value="${resp.salida}" ${administrador ?? 'disabled="disabled"'} required>
+                    <input type="datetime-local" name="salida" class="form-control" value="${resp.salida}" ${administrador ?? 'disabled="disabled"'} required>
                 </div>
 
                 <div class="col-md-6 col-lg-3">

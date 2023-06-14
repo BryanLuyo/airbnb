@@ -1,6 +1,6 @@
 @extends('layout.dashboard')
 @section('script-page')
-    @vite(['resources/js/pages/fichas.js'])
+    @vite(['resources/js/pages/conserje.js'])
 @endsection
 @section('content-child')
 
@@ -12,11 +12,11 @@
                 </div>
             </div>
         </div>
-        <div class="card-body ag-theme-material" id="myGrid" style="height: calc(100vh - 180px);padding:0">
+        <div class="card-body ag-theme-material" id="grid-fichas" style="height: calc(100vh - 180px);padding:0">
         </div>
     </div>
 
     <x-modal-ficha-detalle></x-modal-ficha-detalle>
-
+    <x-modal-qr-whatsapp></x-modal-qr-whatsapp>
 
 @endsection

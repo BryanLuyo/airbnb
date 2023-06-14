@@ -7,7 +7,7 @@ import es from './../es';
 import { RowGroupingModule } from "@ag-grid-enterprise/row-grouping";
 import fichaDetalle from "../component/fichaDetalle";
 
-export default async (userType = '3') => {
+export default async (userType = '3', modalDetalle) => {
     let filterParams = {
         comparator: (filterLocalDateAtMidnight, cellValue) => {
             var dateAsString = cellValue;
@@ -36,10 +36,6 @@ export default async (userType = '3') => {
         maxValidYear: 2025,
         inRangeFloatingFilterDateFormat: 'Do MMM YYYY',
     };
-
-    const modalDetalle = nxmodal(
-        document.getElementById("modalDetalle")
-    );
 
     const deleteRow = async (resp) => {
         nxtoast({

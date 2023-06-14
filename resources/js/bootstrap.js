@@ -40,6 +40,8 @@ window.axios.interceptors.response.use(function (response) {
 
 });
 window.apiURL = import.meta.env.VITE_APIURL
+window.apiURLWHATSAPP = import.meta.env.VITE_APIWHATSAPP
+window.apiKey__ = import.meta.env.VITE_APIKEY
 
 
 const forms = document.querySelectorAll('.needs-validation')

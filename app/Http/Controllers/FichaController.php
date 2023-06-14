@@ -97,6 +97,7 @@ class FichaController extends Controller
     {
         $fichaDetalle = DB::select(
             "SELECT
+            ficha.id fichaID,
             ficha.entidad_id,
             users.id users_id,
             users.nombre,
@@ -155,15 +156,15 @@ class FichaController extends Controller
         ]);
     }
 
-    public function updateAdministrador(Request $request, $key){
-        $ficha = Ficha::find($key);
+    public function updateFechasAdministrador(Request $request, $id){
+        $ficha = Ficha::find($id);
         $ficha->ingreso = $request->ingreso;
         $ficha->salida = $request->salida;
         $ficha->save();
 
         return response()->json([
-            'ok' => TRUE,
-            ''
+            'ok' => true,
+            'response' => $ficha
         ]);
     }
 }

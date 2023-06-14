@@ -28,6 +28,7 @@ Route::group([
     Route::resource('/unidades', UnidadInmobiliariaController::class);
     Route::resource('/conserje', ConserjeController::class);
     Route::post('/auth/logout',[AuthController::class, 'logout']);
+    Route::put('/ficha/administrador/update/fechas/{id}', [FichaController::class, 'updateFechasAdministrador']);
 });
 
 Route::resource('/ficha', FichaController::class);

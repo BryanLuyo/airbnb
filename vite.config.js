@@ -16,7 +16,7 @@ export default defineConfig({
                 "resources/js/pages/entidad.js",
                 'resources/js/pages/administrador.js',
                 "resources/js/pages/ficha.js",
-                "resources/js/pages/fichas.js",
+                "resources/js/pages/conserje.js",
             ],
             refresh: true,
         }),

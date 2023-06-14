@@ -28,8 +28,8 @@ Route::group([
         return view('pages.entidades');
     });
 
-    Route::get('/fichas', function () {
-        return view('pages.fichas');
+    Route::get('/portero', function () {
+        return view('pages.portero');
     });
 
     Route::get('/administrador', function () {
