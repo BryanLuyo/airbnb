@@ -104,4 +104,26 @@ export default (async () => {
 
     })
 
+    document.getElementById('foot-modal-detalle')?.addEventListener('click', async(e) => {
+
+        if ( e.target.id === 'btnGuardarDetalleFichaAdministrador') {
+
+            const formGuardarDetalleFicha = document.getElementById("flicha-detalle").querySelector('#formDetalleFicha');
+
+            if (formGuardarDetalleFicha.checkValidity()) {
+
+                console.log('pasa')
+            } else {
+                formGuardarDetalleFicha.classList.add("was-validated");
+                console.log('no pasa')
+            }
+
+
+
+
+        }
+
+        e.stopPropagation()
+   })
+
 })()
