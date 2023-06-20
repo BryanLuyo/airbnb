@@ -36,7 +36,6 @@ const createInstance = async () => {
 }
 
 const instanceConnect = async () => {
-
     const connect = await fetch(`${apiURLWHATSAPP}/instance/connect/${_user.keyUser}`,{
         headers: {
             "Content-Type": "application/json",
@@ -48,7 +47,7 @@ const instanceConnect = async () => {
 }
 
 const generateQr = async () => {
-
+    const deInstance = await deleteInstance();
     document.getElementById('qr-whatsapp').innerHTML= '';
     const respCreate = await createInstance();
     if ( respCreate.status === 403 ) {

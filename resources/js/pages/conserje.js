@@ -35,17 +35,13 @@ export default (async () => {
                 "Whatsapp conectado"
             );
         }
-
-
     });
 
     document.getElementById('btnGenerarQr').addEventListener('click', async () => {
         document.getElementById('spinerCargando').classList.remove('hide--');
-        const deInstance = await deleteInstance();
-        setTimeout(async () => {
-            await generateQr()
+        generateQr().then((resp) =>{
             document.getElementById('spinerCargando').classList.add('hide--');
-        }, 1000)
+        });
     });
 
     document.getElementById('foot-modal-detalle')?.addEventListener('click', async (e) => {
@@ -64,11 +60,9 @@ export default (async () => {
                     document.getElementById('loading-_-').classList.remove('loadingActive');
                 }
                 if (cstateValidate.state === 'connecting') {
-                    const deInstance = await deleteInstance();
-                    setTimeout(async () => {
-                        await generateQr()
+                    generateQr().then((resp) => {
                         document.getElementById('loading-_-').classList.remove('loadingActive');
-                    }, 1000)
+                    })
                 }
 
                 if (cstateValidate.state === 'open') {
