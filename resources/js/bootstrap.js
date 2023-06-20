@@ -14,6 +14,8 @@ window.axios.defaults.withCredentials = true
 window.axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
+
+    console.log()
     if (401 === error.response.status) {
         if ( document.location.pathname === '/') {
             alertMessage('danger', error.response.data.message);
@@ -24,6 +26,10 @@ window.axios.interceptors.response.use(function (response) {
     }
 
     if (422 === error.response.status) {
+        if ( error.response.data.validateExistingUser) {
+            document.querySelector('.usuario-validate-existing').innerHTML = error.response.data.errors.toString();
+            document.querySelector('.usuario-validate-existing').classList.add('show--')
+        }
         alertMessage('danger',error.response.data.errors.toString())
         return;
     }
@@ -37,7 +43,6 @@ window.axios.interceptors.response.use(function (response) {
         alertMessage('danger',error.response.data.errors.toString())
         return;
     }
-
 });
 window.apiURL = import.meta.env.VITE_APIURL
 window.apiURLWHATSAPP = import.meta.env.VITE_APIWHATSAPP
@@ -56,4 +61,9 @@ Array.from(forms).forEach(form => {
 
         form.classList.add('was-validated')
     }, false)
+})
+
+document.querySelector('.usuario-validate-existing-input')?.addEventListener('input', (e) => {
+    document.querySelector('.usuario-validate-existing').classList.remove('show--')
+    document.querySelector('.usuario-validate-existing').innerHTML = '';
 })

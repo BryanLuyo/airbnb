@@ -12,12 +12,13 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'user' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        if (!Auth::attempt($request->only('user', 'password'))) {
+        $credentials['estado'] = true;
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'ok' => false,
                 'message' => 'Email o contraseña inválidos, o no tiene acceso.',

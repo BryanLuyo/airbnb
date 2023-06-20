@@ -187,6 +187,7 @@ hr {
 .loadingActive {
     opacity: 1;
     display: block;
+    z-index: 9999;
 }
 
 .button-grid {
@@ -203,7 +204,14 @@ hr {
     font-weight: 700;
 }
 
-
 .nav-link {
     color: #001a57
+}
+
+.show-- {
+   display: block;
+}
+
+.hide-- {
+    display: none;
 }

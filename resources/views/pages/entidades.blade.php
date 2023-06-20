@@ -36,14 +36,16 @@
                                 <input type="text" class="form-control" id="txt-entidad-nombre" name="nombre" required>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12 position-relative">
                                 <label for="txt-entidad-usuario" class="form-label">* Usuario</label>
-                                <input type="text" class="form-control" id="txt-entidad-usuario" name="usuario" required>
+                                <input type="text" class="form-control usuario-validate-existing-input" id="txt-entidad-usuario" name="usuario" required>
+                                <div class="invalid-tooltip usuario-validate-existing"></div>
                             </div>
 
                             <div class="col-12">
                                 <label for="txt-entidad-password" class="form-label">* Password</label>
-                                <input type="text" class="form-control" id="txt-entidad-password" name="password" required>
+                                <input type="text" class="form-control" id="txt-entidad-password" name="password"
+                                    required>
                             </div>
                         </div>
                     </form>

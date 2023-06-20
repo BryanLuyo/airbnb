@@ -41,6 +41,17 @@ class ConserjeController extends Controller
             'celular' => 'required'
         ]);
 
+
+        $usuario = User::where('user', $request->user)->where('estado', true)->first();
+
+        if ($usuario) {
+            return response()->json([
+                'ok' => false,
+                'validateExistingUser' => true,
+                'errors' => "El usuario <b>$request->usuario</b>  ya exite en la base de datos, por favor asignar otro usuario",
+            ], 422);
+        }
+
         $user = new User();
         $user->nombre = $request->nombre;
         $user->apellido = $request->apellido ?? '';

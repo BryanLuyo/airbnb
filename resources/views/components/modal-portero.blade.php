@@ -17,9 +17,10 @@
                             <label for="txt-portero-apellido" class="form-label">Apellido</label>
                             <input type="text" class="form-control" id="txt-portero-apellido" name="apellido">
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 position-relative">
                             <label for="txt-portero-user" class="form-label"><span style="color: red">*</span>usuario</label>
-                            <input type="text" class="form-control" id="txt-portero-user" name="user" required>
+                            <input type="text" class="form-control usuario-validate-existing-input" id="txt-portero-user" name="user" required>
+                            <div class="invalid-tooltip usuario-validate-existing"></div>
                         </div>
 
                         <div class="col-12">

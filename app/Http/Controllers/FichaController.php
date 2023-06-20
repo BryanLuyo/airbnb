@@ -21,7 +21,7 @@ class FichaController extends Controller
             ficha.id fichaid,
             users.id users_id,
             CONCAT(users.nombre,'',IFNULL(users.apellido,'')) usuario,
-            ficha.departamento departamento,
+            (SELECT unidad_inmobiliaria.departamento FROM unidad_inmobiliaria WHERE unidad_inmobiliaria.id = ficha.departamento) departamento,
             (SELECT tipo_documento.tipo FROM tipo_documento WHERE tipo_documento.id = users.tipo_documento_id) tipodocumento,
             users.numero_documento,
             DATE_FORMAT(ficha.ingreso, '%d/%m/%Y %H:%i') ingreso,
@@ -31,10 +31,9 @@ class FichaController extends Controller
             JOIN users ON ficha_user.user_id = users.id AND users.estado = TRUE AND users.user_type = '4'
             WHERE ficha.estado = TRUE
             AND ficha.entidad_id = ?
-            AND DATE_ADD(ficha.ingreso, interval 1 day) > NOW()
+            AND DATE_ADD(ficha.salida, interval 1 day) > NOW()
             ", [$request->e])
         ]);
-
     }
 
     /**
@@ -70,10 +69,10 @@ class FichaController extends Controller
             }
 
             $user = new User();
-            $user->nombre  = $request->input("nombre-".$i);
-            $user->apellido = $request->input("apellido-".$i);
-            $user->tipo_documento_id = $request->input("tipo_documento_id-".$i);
-            $user->numero_documento = $request->input("numero_documento-".$i);
+            $user->nombre  = $request->input("nombre-" . $i);
+            $user->apellido = $request->input("apellido-" . $i);
+            $user->tipo_documento_id = $request->input("tipo_documento_id-" . $i);
+            $user->numero_documento = $request->input("numero_documento-" . $i);
             $user->user_type = '4';
             $user->adjunto = $adjunto;
             $user->save();
@@ -100,9 +99,10 @@ class FichaController extends Controller
             ficha.id fichaID,
             ficha.entidad_id,
             users.id users_id,
+            users.`key` users_key,
             users.nombre,
             IFNULL(users.apellido,'') apellido,
-            ficha.departamento departamento,
+            (SELECT unidad_inmobiliaria.departamento FROM unidad_inmobiliaria WHERE unidad_inmobiliaria.id = ficha.departamento) departamento,
             (SELECT tipo_documento.tipo FROM tipo_documento WHERE tipo_documento.id = users.tipo_documento_id) tipodocumento,
             users.numero_documento,
             ficha.ingreso,ficha.salida,
@@ -115,13 +115,14 @@ class FichaController extends Controller
             FROM ficha
             JOIN ficha_user ON ficha.id = ficha_user.ficha_id AND ficha_user.estado = TRUE
             JOIN users ON ficha_user.user_id = users.id AND users.estado = TRUE
-            where ficha.estado = TRUE AND users.id = ?"
-         , [$id])[0];
+            where ficha.estado = TRUE AND users.id = ?",
+            [$id]
+        )[0];
 
         return response()->json([
-           'ok' => true,
-           'response' => $fichaDetalle,
-           'unidades' => UnidadInmobiliaria::where('estado', true)->where('entidad_id',$fichaDetalle->entidad_id)->get()
+            'ok' => true,
+            'response' => $fichaDetalle,
+            'unidades' => UnidadInmobiliaria::where('estado', true)->where('entidad_id', $fichaDetalle->entidad_id)->get()
         ]);
     }
 
@@ -156,7 +157,8 @@ class FichaController extends Controller
         ]);
     }
 
-    public function updateFechasAdministrador(Request $request, $id){
+    public function updateFechasAdministrador(Request $request, $id)
+    {
         $ficha = Ficha::find($id);
         $ficha->ingreso = $request->ingreso;
         $ficha->salida = $request->salida;
@@ -166,5 +168,46 @@ class FichaController extends Controller
             'ok' => true,
             'response' => $ficha
         ]);
+    }
+
+    public function updateAdjunto(Request $request, $keyUsuario)
+    {
+        $directory = 'app-arbn';
+        if (!$request->hasFile('adjunto')) {
+            return response()->json([
+                'ok' => false,
+                'errors' => ['Ingresar un  adjunto'],
+            ], 422);
+        }
+
+
+        $adjunto = $request->file('adjunto')->store($directory, 'vultr');
+        $user = User::find($keyUsuario);
+        $user->adjunto = '';//$adjunto;
+        $user->save();
+
+        $returnResponse = DB::select(
+            "SELECT f.*,
+                (
+                   SELECT us.celular
+                    FROM unidad_inmobiliaria uni
+                    JOIN users us ON uni.propietario = us.id AND us.estado = TRUE
+                    WHERE uni.estado = TRUE AND uni.id = f.departamento
+                ) numPropietario
+                FROM ficha_user fu
+                JOIN ficha f ON fu.ficha_id = f.id AND f.estado = TRUE
+                WHERE fu.estado = TRUE AND fu.user_id = ?
+                ",
+            [$user->id]
+        )[0];
+
+        $returnResponse->user = $user;
+
+        return response()->json([
+            'ok' => true,
+            'message' => "Se guardo correctamente",
+            'response' => $returnResponse
+        ]);
+
     }
 }

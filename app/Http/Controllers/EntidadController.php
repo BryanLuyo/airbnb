@@ -28,7 +28,7 @@ class EntidadController extends Controller
                 CONCAT(?,'/frm?e=',entidad.`key`) 'link'
                 FROM usuario_entidad
                 JOIN entidad ON usuario_entidad.entidad_id = entidad.id AND entidad.estado = TRUE
-                JOIN users ON usuario_entidad.user_id = users.id AND users.estado = TRUE
+                JOIN users ON usuario_entidad.user_id = users.id AND users.estado = TRUE AND users.user_type = '2'
                 WHERE entidad.estado = TRUE
             ", [env('APP_URL')])
         ]);
@@ -52,9 +52,17 @@ class EntidadController extends Controller
             'password' => 'required'
         ]);
 
-        $entidad = new Entidad();
-        $entidad->nombre = $request->nombre;
-        $entidad->save();
+
+        $usuario = User::where('user', $request->usuario)->where('estado', true)->first();
+
+        if ($usuario) {
+            return response()->json([
+                'ok' => false,
+                'validateExistingUser' => true,
+                'errors' => "El usuario <b>$request->usuario</b>  ya exite en la base de datos, por favor asignar otro usuario",
+            ], 422);
+        }
+
 
         $user = new User();
         $user->nombre = $request->nombre;
@@ -63,6 +71,13 @@ class EntidadController extends Controller
         $user->password = Hash::make($request->password);
         $user->user_type = '2';
         $user->save();
+
+
+        $entidad = new Entidad();
+        $entidad->nombre = $request->nombre;
+        $entidad->save();
+
+
 
         $entidadFind = Entidad::find($entidad->key);
         $userFind = User::find($user->key);

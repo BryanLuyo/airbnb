@@ -13,7 +13,7 @@ Route::get('/frm', function (Request $request) {
     return view('pages.ficha', [
         'key' => $request->e,
         'unidades' => DB::select(
-            "SELECT departamento FROM unidad_inmobiliaria
+            "SELECT id,departamento FROM unidad_inmobiliaria
             WHERE unidad_inmobiliaria.estado = TRUE AND unidad_inmobiliaria.entidad_id =
             (SELECT entidad.id FROM entidad WHERE entidad.key = ?)",
             [$request->e]

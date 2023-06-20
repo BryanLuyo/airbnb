@@ -1,18 +1,29 @@
 export default async (resp, administrador = false, dataDepartamentos = []) => {
+
     /*${ dataDepartamentos.map(departamento => {
             console.log(departamento);
     })}*/
 
-    if ( administrador) {
-       document.getElementById('foot-modal-detalle').innerHTML = `
+
+    //
+
+
+    if (administrador) {
+        document.getElementById('foot-modal-detalle').innerHTML = `
             <button type="button" class="btn btn-secondary" id="btnCancelarGuardarEntidad" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary" style="background: #001a57" id="btnGuardarDetalleFichaAdministrador">Guardar</button>
-       `
+        `
+    } else {
+        document.getElementById('foot-modal-detalle').innerHTML = `
+            <button type="button" class="btn btn-secondary" id="btnCancelarGuardarEntidad" data-bs-dismiss="modal">Cerrar</button>
+            ${ (!resp.adjunto) ? '<button type="button" class="btn btn-primary" style="background: #001a57" id="btnGuardarDetalleFichaAdministrador">Guardar</button>' : '' }
+        `
     }
 
     return `
         <form class="needs-validation" id="formDetalleFicha" novalidate="">
             <input type="hidden" name="fichaID" id="fichaID__" value="${resp.fichaID}">
+            <input type="hidden" name="user_key__" id="user_key__" value="${resp.users_key}">
             <div class="row">
                 <div class="col-md-6 col-lg-3">
                     <label for="departamento" class="form-label"><span style="color: red">(*)</span>Departamento</label>
@@ -33,12 +44,12 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
 
                 <div class="col-md-6 col-lg-3">
                     <label for="ingreso" class="form-label">Fecha y hora de ingreso</label>
-                    <input type="datetime-local" name="ingreso" class="form-control" value="${resp.ingreso}" ${administrador ?? 'disabled="disabled"'} required>
+                    <input type="datetime-local" name="ingreso" class="form-control" value="${resp.ingreso}" ${(administrador) ? '' : 'disabled="disabled" required'}>
                 </div>
 
                 <div class="col-md-6 col-lg-3">
                     <label for="salida" class="form-label">Fecha y hora de salida</label>
-                    <input type="datetime-local" name="salida" class="form-control" value="${resp.salida}" ${administrador ?? 'disabled="disabled"'} required>
+                    <input type="datetime-local" name="salida" class="form-control" value="${resp.salida}" ${(administrador) ? '' : 'disabled="disabled" required'}>
                 </div>
 
                 <div class="col-md-6 col-lg-3">
@@ -72,6 +83,11 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
                         Documento</label>
                     <input type="text" class="form-control" value="${resp.numero_documento}" disabled="disabled">
                 </div>
+
+                ${ (resp.adjunto) ?
+                '<div class="col-md-6 col-lg-6 mt-3"><div class="d-grid d-md-flex justify-content-md-end"><a href="/s?archive='+resp.adjunto+'" target="_blank" class="btn btn-primary btn-sm" type="button" >Ver documento</a></div></div>'
+                :
+                `<div class="col-md-6 col-lg-6"><label for="adjunto" class="form-label">Adjuntar documento</label><div class="input-group"><input type="file" class="form-control" id="adjunto" name="adjunto" ${(!administrador) ? 'required' : '' } ></div></div>` }
             </div>
         </form>
     `

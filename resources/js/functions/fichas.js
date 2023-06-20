@@ -75,6 +75,9 @@ export default async (userType = '3', modalDetalle) => {
         });
     };
 
+
+    let administrador__ = (userType === '2') ? true : false;
+
     const columnDefs = [
         { field: "departamento", headerName: "Departamento", width: 180, rowGroup: true, hide: false },
         { field: "usuario", headerName: "Usuario", width: 300 },
@@ -85,7 +88,7 @@ export default async (userType = '3', modalDetalle) => {
         {
             field: "fichaid",
             headerName: "Acciones",
-            width: 100,
+            width: 60,
             pinned: "right",
             filter: false,
             cellRenderer: ButtonDetalle,
@@ -93,7 +96,7 @@ export default async (userType = '3', modalDetalle) => {
                 userType : userType,
                 clickedDetalle: async (data) => {
                     var { data } = await axios.get(`${apiURL}/ficha/${data.users_id}`);
-                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response,true, data.unidades)
+                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response,administrador__, data.unidades)
                     modalDetalle.show()
                 },
                 clickedDelete : async (data) => {
