@@ -1,12 +1,12 @@
 const connectionState = async () => {
-    const state = await fetch(`${apiURLWHATSAPP}/instance/connectionState/${_user.keyUser}`,{
+    const state = await fetch(`${apiURLWHATSAPP}/instance/connectionState/${_user.keyUser}`, {
         headers: {
             "Content-Type": "application/json",
-            "apikey" : `${apiKey__}`
+            "apikey": `${apiKey__}`
         },
     })
 
-    return  await state.json()
+    return await state.json()
 }
 
 const deleteInstance = async () => {
@@ -15,11 +15,11 @@ const deleteInstance = async () => {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            "apikey" : `${apiKey__}`
+            "apikey": `${apiKey__}`
         }
     })
 
-    return  await instance.json()
+    return await instance.json()
 }
 
 const createInstance = async () => {
@@ -27,38 +27,38 @@ const createInstance = async () => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "apikey" : `${apiKey__}`
+            "apikey": `${apiKey__}`
         },
-        body: JSON.stringify({ instanceName : _user.keyUser })
+        body: JSON.stringify({ instanceName: _user.keyUser })
     })
 
-    return  await instance.json()
+    return await instance.json()
 }
 
 const instanceConnect = async () => {
-    const connect = await fetch(`${apiURLWHATSAPP}/instance/connect/${_user.keyUser}`,{
+    const connect = await fetch(`${apiURLWHATSAPP}/instance/connect/${_user.keyUser}`, {
         headers: {
             "Content-Type": "application/json",
-            "apikey" : `${apiKey__}`
+            "apikey": `${apiKey__}`
         }
     })
 
-    return  await connect.json()
+    return await connect.json()
 }
 
 const generateQr = async () => {
-    const deInstance = await deleteInstance();
-    document.getElementById('qr-whatsapp').innerHTML= '';
+    document.getElementById('qr-whatsapp').innerHTML = '';
+
     const respCreate = await createInstance();
-    if ( respCreate.status === 403 ) {
-       return;
-    }
-    const respConnect = await instanceConnect();
-    if ( respConnect.state === "open" ) {
+    if (respCreate.status === 403) {
         return;
     }
-    if ( respConnect.status === 404 ) {
-        generateQr()
+    const respConnect = await instanceConnect();
+    if (respConnect.state === "open") {
+        return;
+    }
+    if (respConnect.status === 404) {
+        await generateQr()
         return;
     }
 
@@ -71,16 +71,16 @@ const sendMessage = async (options = {}) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "apikey" : `${apiKey__}`
+            "apikey": `${apiKey__}`
         },
         body: JSON.stringify(
             {
                 number: options.numero,
                 options: {
-                  delay: 1200
+                    delay: 1200
                 },
                 textMessage: {
-                  text: options.message
+                    text: options.message
                 }
             }
         )

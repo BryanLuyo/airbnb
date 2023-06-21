@@ -13,7 +13,11 @@ export default (async () => {
         document.getElementById("modalDetalle")
     );
 
-    await generateQr()
+
+    document.getElementById('loading-_-').classList.add('loadingActive');
+    generateQr().then((resp) => {
+        document.getElementById('loading-_-').classList.remove('loadingActive');
+    });
     await fichas('3', modalDetalle)
 
     document.getElementById('btnconectado').addEventListener('click', async () => {
@@ -39,9 +43,12 @@ export default (async () => {
 
     document.getElementById('btnGenerarQr').addEventListener('click', async () => {
         document.getElementById('spinerCargando').classList.remove('hide--');
-        generateQr().then((resp) =>{
-            document.getElementById('spinerCargando').classList.add('hide--');
-        });
+        const deInstance = await deleteInstance();
+        setTimeout(() => {
+            generateQr().then((resp) =>{
+                document.getElementById('spinerCargando').classList.add('hide--');
+            });
+        }, 1000)
     });
 
     document.getElementById('foot-modal-detalle')?.addEventListener('click', async (e) => {
@@ -53,19 +60,11 @@ export default (async () => {
             );
 
             if (formGuardarDetalleFicha.checkValidity()) {
+
                 document.getElementById('loading-_-').classList.add('loadingActive');
                 const cstateValidate = await connectionState();
-                if (cstateValidate.status === 404) {
-                    await generateQr()
-                    document.getElementById('loading-_-').classList.remove('loadingActive');
-                }
-                if (cstateValidate.state === 'connecting') {
-                    generateQr().then((resp) => {
-                        document.getElementById('loading-_-').classList.remove('loadingActive');
-                    })
-                }
 
-                if (cstateValidate.state === 'open') {
+                if (cstateValidate?.state === 'open') {
                     const fichaID__ = document.getElementById('user_key__').value;
                     var { data } = await axios.post(`${apiURL}/ficha/portero/update/adjunto/${fichaID__}`, formComprobante)
                     console.log(data)
@@ -82,7 +81,15 @@ export default (async () => {
                             "se guardo correctamente."
                         );
                     }
+                } else {
+
+                    const deInstance = await deleteInstance();
+                    generateQr().then((resp) => {
+                        document.getElementById('loading-_-').classList.remove('loadingActive');
+                    });
+
                 }
+
             } else {
                 formGuardarDetalleFicha.classList.add("was-validated");
             }

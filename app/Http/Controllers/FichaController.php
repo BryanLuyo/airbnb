@@ -20,7 +20,7 @@ class FichaController extends Controller
             SELECT
             ficha.id fichaid,
             users.id users_id,
-            CONCAT(users.nombre,'',IFNULL(users.apellido,'')) usuario,
+            CONCAT(users.nombre,' ',IFNULL(users.apellido,'')) usuario,
             (SELECT unidad_inmobiliaria.departamento FROM unidad_inmobiliaria WHERE unidad_inmobiliaria.id = ficha.departamento) departamento,
             (SELECT tipo_documento.tipo FROM tipo_documento WHERE tipo_documento.id = users.tipo_documento_id) tipodocumento,
             users.numero_documento,
@@ -183,7 +183,7 @@ class FichaController extends Controller
 
         $adjunto = $request->file('adjunto')->store($directory, 'vultr');
         $user = User::find($keyUsuario);
-        $user->adjunto = '';//$adjunto;
+        $user->adjunto = $adjunto;
         $user->save();
 
         $returnResponse = DB::select(
