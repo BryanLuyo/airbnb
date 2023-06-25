@@ -1,8 +1,9 @@
 import { alertMessage, form_data, nxmodal } from "../function";
-import cerrarSession from "../functions/cerrar-session";
 import fichas from "../functions/fichas";
 import mensagge from "../functions/mensagge";
+import Compressor from 'compressorjs';
 import { connectionState, deleteInstance, generateQr, sendMessage } from "../functions/whatsapp-conect";
+import cerrarSession from "../functions/cerrar-session";
 export default (async () => {
     window._user = JSON.parse(localStorage.getItem('_user'));
     window.modalQRWhatsapp = nxmodal(
@@ -45,7 +46,7 @@ export default (async () => {
         document.getElementById('spinerCargando').classList.remove('hide--');
         const deInstance = await deleteInstance();
         setTimeout(() => {
-            generateQr().then((resp) =>{
+            generateQr().then((resp) => {
                 document.getElementById('spinerCargando').classList.add('hide--');
             });
         }, 1000)
@@ -97,10 +98,28 @@ export default (async () => {
         e.stopPropagation()
     })
 
+    document.getElementById("flicha-detalle").addEventListener('change', async (e) => {
+
+        if (e.target.id === "adjunto") {
+            const file = e.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            console.log(file)
+
+            new Compressor(file, {
+                quality: 0.3,
+                success(result) {
+                    console.log(result)
+                }
+            })
+
+        }
+
+    })
+
     cerrarSession()
 
 })()
-
-
-
-//"status": 404,
