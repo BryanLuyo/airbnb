@@ -29,7 +29,7 @@ Route::group([
     Route::resource('/conserje', ConserjeController::class);
     Route::post('/auth/logout',[AuthController::class, 'logout']);
     Route::put('/ficha/administrador/update/fechas/{id}', [FichaController::class, 'updateFechasAdministrador']);
-    Route::post('/ficha/portero/update/adjunto/{keyUsuario}', [FichaController::class, 'updateAdjunto']);
+    Route::post('/ficha/portero/update/adjunto', [FichaController::class, 'updateAdjunto']);
 });
 
 Route::resource('/ficha', FichaController::class);

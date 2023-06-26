@@ -87,7 +87,7 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
                 ${ (resp.adjunto) ?
                     `<div class="col-md-6 col-lg-6 mt-3">
                         <div class="d-grid d-md-flex justify-content-md-end">
-                            <a href="/s?archive='+resp.adjunto+'" target="_blank" class="btn btn-primary btn-sm" type="button" >
+                            <a href="/s?archive=${resp.adjunto}" target="_blank" class="btn btn-primary btn-sm" type="button" >
                             Ver documento
                             </a>
                         </div>
@@ -96,7 +96,7 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
                     `<div class="col-md-6 col-lg-6">
                         <label for="adjunto" class="form-label">Adjuntar documento</label>
                         <div class="input-group">
-                            <input type="file" class="form-control adjunto-ficha" id="adjunto" name="adjunto" ${(!administrador) ? 'required' : '' } >
+                            <input type="file" class="form-control adjunto-ficha" id="adjunto" ${(!administrador) ? 'required' : '' } >
                         </div>
                     </div>`
                 }

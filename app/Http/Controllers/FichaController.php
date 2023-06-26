@@ -170,19 +170,18 @@ class FichaController extends Controller
         ]);
     }
 
-    public function updateAdjunto(Request $request, $keyUsuario)
+    public function updateAdjunto(Request $request)
     {
         $directory = 'app-arbn';
-        if (!$request->hasFile('adjunto')) {
+        if (!$request->hasFile('file')) {
             return response()->json([
                 'ok' => false,
                 'errors' => ['Ingresar un  adjunto'],
             ], 422);
         }
 
-
-        $adjunto = $request->file('adjunto')->store($directory, 'vultr');
-        $user = User::find($keyUsuario);
+        $adjunto = $request->file('file')->store($directory, 'vultr');
+        $user = User::find($request->userKey);
         $user->adjunto = $adjunto;
         $user->save();
 
