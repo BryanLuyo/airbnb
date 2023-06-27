@@ -215,3 +215,42 @@ hr {
 .hide-- {
     display: none;
 }
+
+
+.padding-container {}
+
+.height-grid-dashboard-portero {
+    height: calc(100vh - 180px)
+}
+
+.height-grid-dashboard-administrador-portero-departamento {
+    height: calc(100vh - 240px)
+}
+
+.margin-top-administrador{}
+
+@media (max-width: 800px) {
+    .padding-container {
+        padding: 0 !important;
+    }
+
+    .mt-3 {
+        margin-top: 0rem !important;
+    }
+
+    .card .card-header {
+        padding: 1.5rem 1.5rem 0;
+    }
+
+    .height-grid-dashboard-portero {
+        height: calc(100vh - 105px)
+    }
+
+    .height-grid-dashboard-administrador-portero-departamento {
+        height: calc(100vh - 195px)
+    }
+
+    .margin-top-administrador {
+        margin-top: 0.5rem !important;
+    }
+}

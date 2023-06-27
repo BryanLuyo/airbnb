@@ -62,7 +62,7 @@ const generateQr = async () => {
         return;
     }
 
-    document.getElementById('qr-whatsapp').innerHTML = `<center><img alt="QR Whatsapp" style() src="${respConnect.base64}" style="width: 400px"></center>`
+    document.getElementById('qr-whatsapp').innerHTML = `<center><img alt="QR Whatsapp" src="${respConnect.base64}" class="img-fluid"></center>`
     modalQRWhatsapp.show();
 }
 

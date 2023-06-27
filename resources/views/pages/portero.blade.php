@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-body ag-theme-material" id="grid-fichas" style="height: calc(100vh - 180px);padding:0">
+        <div class="card-body ag-theme-material height-grid-dashboard" id="grid-fichas" style="padding:0">
         </div>
     </div>
 

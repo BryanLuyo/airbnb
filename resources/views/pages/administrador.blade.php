@@ -31,7 +31,7 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab"
                     tabindex="0">
-                    <div id='grid-info' style="height: calc(100vh - 180px);">
+                    <div id='grid-info' class="height-grid-dashboard-portero">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
@@ -51,28 +51,28 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-fichas" role="tabpanel" aria-labelledby="nav-fichas-tab" tabindex="0">
-                    <div id='grid-fichas' style="height: calc(100vh - 180px);"></div>
+                    <div id='grid-fichas' class="height-grid-dashboard-portero"></div>
                 </div>
                 <div class="tab-pane fade" id="nav-departamentos" role="tabpanel" aria-labelledby="nav-departamentos-tab"
                     tabindex="0">
                     <div class="container-fluid">
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end margin-top-administrador">
                             <button class="btn btn-primary" type="button" id="btnAddUnidad">Agregar Unidad</button>
                         </div>
                     </div>
 
-                    <div id='grid-departamentos' style="height: calc(100vh - 240px);"></div>
+                    <div id='grid-departamentos' class="height-grid-dashboard-administrador-portero-departamento"></div>
                 </div>
                 <div class="tab-pane fade" id="nav-usuarios" role="tabpanel" aria-labelledby="nav-usuarios-tab"
                     tabindex="0">
 
                     <div class="container-fluid">
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end margin-top-administrador">
                             <button class="btn btn-primary" type="button" id="btnAddPortero">Agregar Portero</button>
                         </div>
                     </div>
 
-                    <div id='grid-porteros' style="height: calc(100vh - 240px);"></div>
+                    <div id='grid-porteros' class="height-grid-dashboard-administrador-portero-departamento"></div>
                 </div>
             </div>
 

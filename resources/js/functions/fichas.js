@@ -88,35 +88,32 @@ export default async (userType = '3', modalDetalle) => {
         {
             field: "fichaid",
             headerName: "Acciones",
-            width: 60,
+            width: 30,
             pinned: "right",
             filter: false,
             cellRenderer: ButtonDetalle,
             cellRendererParams: {
-                userType : userType,
+                userType: userType,
                 clickedDetalle: async (data) => {
                     var { data } = await axios.get(`${apiURL}/ficha/${data.users_id}`);
-                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response,administrador__, data.unidades)
+                    document.getElementById('flicha-detalle').innerHTML = await fichaDetalle(data.response, administrador__, data.unidades)
                     modalDetalle.show()
                 },
-                clickedDelete : async (data) => {
+                clickedDelete: async (data) => {
                     deleteRow(data)
                 }
             },
         },
     ];
 
+
+    let defaultColDef = (userType == '2') ?{sortable: true,filter: true,floatingFilter: true,resizable: true,minWidth: 180,flex: 1}:
+                        (screen.width > 1500 ) ? {sortable: true,filter: true,floatingFilter: true,resizable: true,minWidth: 180,flex: 1}: {sortable: true,filter: true,floatingFilter: true,resizable: true};
+
     const gridOptions = {
         columnDefs: columnDefs,
         getRowId: (params) => params.data.fichaid,
-        defaultColDef: {
-            sortable: true,
-            filter: true,
-            floatingFilter: true,
-            resizable: true,
-            minWidth: 170,
-            flex: (userType == '2') ? '1' : '0',
-        },
+        defaultColDef: defaultColDef,
         autoGroupColumnDef: {
             width: 150,
         },

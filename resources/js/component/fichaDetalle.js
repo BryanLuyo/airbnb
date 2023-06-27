@@ -44,7 +44,7 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
 
                 <div class="col-md-6 col-lg-3">
                     <label for="ingreso" class="form-label">Fecha y hora de ingreso</label>
-                    <input type="datetime-local" name="ingreso" class="form-control" value="${resp.ingreso}" ${(administrador) ? '' : 'disabled="disabled" required'}>
+                    <input type="datetime-local" name="ingreso" class="form-control" value="${resp.ingreso}" disabled="disabled">
                 </div>
 
                 <div class="col-md-6 col-lg-3">
@@ -84,7 +84,16 @@ export default async (resp, administrador = false, dataDepartamentos = []) => {
                     <input type="text" class="form-control" value="${resp.numero_documento}" disabled="disabled">
                 </div>
 
-                ${ (resp.adjunto) ?
+                ${ (administrador) ?
+                    `<div class="col-md-6 col-lg-6 mt-3">
+                        <div class="d-grid d-md-flex justify-content-md-end">
+                            <a href="/s?archive=${resp.adjunto}" target="_blank" class="btn btn-primary btn-sm" type="button" >
+                            Ver documento
+                            </a>
+                        </div>
+                    </div>`
+                    :
+                    (resp.adjunto) ?
                     `<div class="col-md-6 col-lg-6 mt-3">
                         <div class="d-grid d-md-flex justify-content-md-end">
                             <a href="/s?archive=${resp.adjunto}" target="_blank" class="btn btn-primary btn-sm" type="button" >
